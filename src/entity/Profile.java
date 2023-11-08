@@ -14,6 +14,7 @@ public class Profile {
     private Transactions[] transactions;
     private String password;
     private long phoneNumber;
+    private Preferences preferences = new Preferences();
 
     public String getName() {
         return name;
@@ -93,5 +94,9 @@ public class Profile {
 
     public void setPhoneNumber(long number) {
         this.phoneNumber = number;
+    }
+
+    public Preferences getPreferences() {
+        return preferences;
     }
 }
