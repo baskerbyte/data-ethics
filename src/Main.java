@@ -14,29 +14,6 @@ public class Main {
 
         Profile profile1 = new Profile();
 
-        // Preencher os campos
-        profile1.setName("João da Silva");
-        profile1.setEmail("joao.silva@email.com");
-
-        // Definir a data de nascimento (exemplo)
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date birthday = dateFormat.parse("15/05/1990");
-        profile1.setBirthday(birthday);
-
-        profile1.setGender(Gender.MALE);
-
-        profile1.setUsername("joaosilva123");
-        profile1.setCpf("123.456.789-01");
-
-        profile1.setPassword("senha123");
-        profile1.setPhoneNumber(555123456789L);
-
-        profile1.getPreferences().setBirthdayOption(true);
-        profile1.getPreferences().setFullNameOption(true);
-        profile1.getPreferences().setGenderOption(true);
-
-        profiles.put(profile1.getEmail(), profile1);
-
         while(true) {
             int option = menu("Criar Perfil", "Editar perfil", "Listar Perfis", "Excluir Perfil");
 
