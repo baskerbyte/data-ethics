@@ -1,3 +1,4 @@
+import entity.Address;
 import entity.Gender;
 import entity.Preferences;
 import entity.Profile;
@@ -40,22 +41,23 @@ public class Main {
     }
 
     public static int menu(String... options) {
-        Scanner scanner = new Scanner(System.in);
-        int option;
+        try (Scanner scanner = new Scanner(System.in)) {
+            int option;
 
-        do {
-            System.out.println("[0] Sair");
-            for (int i = 0; i < options.length; i++) {
-                System.out.println("[" + (i + 1) + "] " + options[i]);
-            }
+            do {
+                System.out.println("[0] Sair");
+                for (int i = 0; i < options.length; i++) {
+                    System.out.println("[" + (i + 1) + "] " + options[i]);
+                }
 
-            System.out.println("Digite uma opção:");
-            option = scanner.nextInt();
+                System.out.println("Digite uma opção:");
+                option = scanner.nextInt();
 
-        } while (0 < option && option > options.length);
-        System.out.println();
+            } while (0 < option && option > options.length);
+            System.out.println();
 
-        return option;
+            return option;
+        }
     }
 
     private static void deleteProfile(HashMap<String, Profile> profiles) {
@@ -252,7 +254,7 @@ public class Main {
                     profile.setPassword(PasswordStorage.hashPassword(input));
                 } else {
                     System.out.println("""
-                    Senha fraca! Use pleo menos 8 dígitos, dos quais: ao menos um dígito, ao menos uma letra minúscula 
+                    Senha fraca! Use pelo menos 8 dígitos, dos quais: ao menos um dígito, ao menos uma letra minúscula 
                     e maiúscula e ao menos um caractere especial
                     """);
                     return false;
@@ -279,8 +281,15 @@ public class Main {
                     return false;
                 }
                 break;
-            case 5:
-                break;
+            case 5: 
+                Pattern endPattern = Pattern.compile("^[\\w\\s,.]+\\s\\d+$"); 
+                
+                if (endPattern.matcher(input).matches()) {
+                    profile.setAddress(input);
+                } else {
+                    System.out.println("Endereço Inválido");
+                    return false;
+                }
             case 6:
                 Pattern username = Pattern.compile("^(?=.{3,20}$)(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9_-]+([^._-])$");
 

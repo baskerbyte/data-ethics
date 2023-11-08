@@ -8,7 +8,7 @@ public class Profile {
     private String email;
     private Date birthday;
     private Gender gender;
-    private Address address;
+    private String address;
     private String username;
     private String cpf;
     private Transactions[] transactions;
@@ -48,11 +48,11 @@ public class Profile {
         this.gender = gender;
     }
 
-    public Address getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
