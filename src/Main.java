@@ -1,19 +1,13 @@
-import entity.Address;
 import entity.Gender;
-import entity.Preferences;
 import entity.Profile;
 import services.PasswordStorage;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class Main {
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
         HashMap<String, Profile> profiles = new HashMap<>();
-
-        Profile profile1 = new Profile();
 
         while(true) {
             int option = menu("Criar Perfil", "Editar perfil", "Listar Perfis", "Excluir Perfil");
@@ -41,23 +35,22 @@ public class Main {
     }
 
     public static int menu(String... options) {
-        try (Scanner scanner = new Scanner(System.in)) {
-            int option;
+        Scanner scanner = new Scanner(System.in);
+        int option;
 
-            do {
-                System.out.println("[0] Sair");
-                for (int i = 0; i < options.length; i++) {
-                    System.out.println("[" + (i + 1) + "] " + options[i]);
-                }
+        do {
+            System.out.println("[0] Sair");
+            for (int i = 0; i < options.length; i++) {
+                System.out.println("[" + (i + 1) + "] " + options[i]);
+            }
 
-                System.out.println("Digite uma opção:");
-                option = scanner.nextInt();
+            System.out.println("Digite uma opção:");
+            option = scanner.nextInt();
 
-            } while (0 < option && option > options.length);
-            System.out.println();
+        } while (0 < option && option > options.length);
+        System.out.println();
 
-            return option;
-        }
+        return option;
     }
 
     private static void deleteProfile(HashMap<String, Profile> profiles) {
@@ -66,27 +59,32 @@ public class Main {
         System.out.print("Digite o email do perfil a ser excluido: ");
         String emailToEdit = scanner.nextLine();
 
-        if (profiles.containsKey(emailToEdit)) {
-            Profile profile = profiles.get(emailToEdit);
-
-            System.out.print("Digite a senha: ");
-            String password = scanner.nextLine();
-
-            if (PasswordStorage.checkPassword(password)) {
-                System.out.print("Confirme com o CPF: ");
-                String cpf = scanner.nextLine();
-
-                if (Objects.equals(cpf, profile.getCpf())) {
-                    profiles.remove(profile.getEmail());
-                } else {
-                    System.out.println("CPF inválido");
-                }
-            } else {
-                System.out.println("Senha incorreta");
-            }
-        } else {
+        if (!profiles.containsKey(emailToEdit)) {
             System.out.println("Perfil não encontrado");
+
+            return;
         }
+
+        Profile profile = profiles.get(emailToEdit);
+
+        System.out.print("Digite a senha: ");
+        String password = scanner.nextLine();
+
+        if (!PasswordStorage.checkPassword(password)) {
+            System.out.println("Senha incorreta");
+            return;
+        }
+
+        System.out.print("Confirme com o CPF: ");
+        String cpf = scanner.nextLine();
+
+        if (!Objects.equals(cpf, profile.getCpf())) {
+            System.out.println("CPF inválido");
+            return;
+        }
+
+        profiles.remove(profile.getEmail());
+        System.out.print("Perfil deletado!");
     }
 
     private static void editProfile(HashMap<String, Profile> profiles) {
@@ -95,44 +93,39 @@ public class Main {
         System.out.print("Digite o email do perfil a ser editado: ");
         String emailToEdit = scanner.nextLine();
 
-        if (profiles.containsKey(emailToEdit)) {
-            Profile profile = profiles.get(emailToEdit);
-
-            System.out.print("Digite a senha: ");
-            String password = scanner.nextLine();
-
-            if (PasswordStorage.checkPassword(password)) {
-                StringBuilder details = profileDetails(profile, true);
-                String[] lines = details.toString().split("\n");
-
-                for (int i = 0; i < lines.length; i++) {
-                    String line = lines[i];
-                    int lineNumber = i + 1; // Número da linha
-
-                    // Adicione o número da linha à frente de cada linha
-                    lines[i] = lineNumber + ". " + line;
-                }
-
-                System.out.println(String.join("\n", lines));
-
-                System.out.print("Escolha o número da linha que deseja editar: ");
-                int lineNumber = scanner.nextInt();
-                scanner.nextLine();
-
-                if (lineNumber >= 1 && lineNumber <= 12) {
-                    String fieldName = lines[lineNumber - 1].split("-")[0].replaceFirst("^[0-9]+\\.", "").strip();
-                    // Repetir enquanto o resultado for inválido
-                    do {
-                        System.out.print("Digite o novo " + fieldName + ": ");
-                    } while (!setProfileField(profile, lineNumber - 1, scanner.nextLine()));
-                } else {
-                    System.out.println("Linha incorreta");
-                }
-            } else {
-                System.out.println("Senha incorreta");
-            }
-        } else {
+        if (!profiles.containsKey(emailToEdit)) {
             System.out.println("Perfil não encontrado");
+            return;
+        }
+
+
+        System.out.print("Digite a senha: ");
+        String password = scanner.nextLine();
+
+        if (!PasswordStorage.checkPassword(password)) {
+            System.out.println("Senha incorreta");
+            return;
+        }
+
+        while (true) {
+            Profile profile = profiles.get(emailToEdit);
+            StringBuilder details = profileDetails(profile, true);
+            String[] lines = details.toString().split("\n");
+            int lineNumber = menu(lines);
+
+            if (lineNumber == 0) {
+                System.out.println("Saindo...");
+                return;
+            }
+
+            String fieldName = lines[lineNumber - 1].split("-")[0].replaceFirst("^[0-9]+\\.", "").strip();
+            // Repetir enquanto o resultado for inválido
+            do {
+                System.out.print("Digite o novo " + fieldName.toLowerCase() + ": ");
+            } while (setProfileField(profiles.get(emailToEdit), lineNumber - 1, scanner.nextLine()));
+
+            System.out.print("Alteração salva!");
+            System.out.println();
         }
     }
 
@@ -213,7 +206,7 @@ public class Main {
                 // Repetir enquanto o resultado for inválido
                 do {
                     System.out.print(fieldName + ": ");
-                } while (!setProfileField(profile, currentField, scanner.nextLine()));
+                } while (setProfileField(profile, currentField, scanner.nextLine()));
             }
 
             currentStep++;
@@ -225,114 +218,28 @@ public class Main {
     }
 
     private static boolean setProfileField(Profile profile, int fieldIndex, String input) {
-        switch (fieldIndex) {
-            case 0:
-                Pattern namePattern = Pattern.compile("^(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+(?:\\-(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+)*(?: (?:(?:e|y|de(?:(?: la| las| lo| los))?|do|dos|da|das|del|van|von|bin|le) )?(?:(?:(?:d'|D'|O'|Mc|Mac|al\\-))?(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+|(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+(?:\\-(?:[\\p{Lu}&&[\\p{IsLatin}]])(?:(?:')?(?:[\\p{Ll}&&[\\p{IsLatin}]]))+)*))+(?: (?:Jr\\.|II|III|IV))?$");
+        Runnable[] setters = {
+                () -> profile.setName(input),
+                () -> profile.setEmail(input),
+                () -> profile.setPassword(input),
+                () -> profile.setBirthday(input),
+                () -> profile.setCpf(input),
+                () -> profile.setAddress(input),
+                () -> profile.setUsername(input),
+                () -> profile.setGender(input),
+                () -> profile.setPhoneNumber(input),
+                () -> profile.getPreferences().setBirthdayOption(input.equalsIgnoreCase("s")),
+                () -> profile.getPreferences().setFullNameOption(input.equalsIgnoreCase("s")),
+                () -> profile.getPreferences().setGenderOption(input.equalsIgnoreCase("s"))
+        };
 
-                if (namePattern.matcher(input).matches()) {
-                    profile.setName(input);
-                } else {
-                    System.out.println("Nome inválido");
-                    return false;
-                }
-
-                break;
-            case 1:
-                Pattern emailPattern = Pattern.compile("^((?!\\.)[\\w\\-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$");
-
-                if (emailPattern.matcher(input).matches()) {
-                    profile.setEmail(input);
-                } else {
-                    System.out.println("Email inválido");
-                    return false;
-                }
-                break;
-            case 2:
-                Pattern strongPattern = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\\W).{8,}$");
-
-                if (strongPattern.matcher(input).matches()) {
-                    profile.setPassword(PasswordStorage.hashPassword(input));
-                } else {
-                    System.out.println("""
-                    Senha fraca! Use pelo menos 8 dígitos, dos quais: ao menos um dígito, ao menos uma letra minúscula 
-                    e maiúscula e ao menos um caractere especial
-                    """);
-                    return false;
-                }
-                break;
-            case 3:
-                try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    Date date = dateFormat.parse(input);
-
-                    profile.setBirthday(date);
-                } catch (ParseException e) {
-                    System.out.println("Data de Nascimento inválida. Use o formato dd/mm/aaaa.");
-                    return false;
-                }
-                break;
-            case 4:
-                Pattern cpfPattern = Pattern.compile("([0-9]{2}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[\\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[-]?[0-9]{2})");
-
-                if (cpfPattern.matcher(input).matches()) {
-                    profile.setCpf(input);
-                } else {
-                    System.out.println("CPF Inválido");
-                    return false;
-                }
-                break;
-            case 5: 
-                Pattern endPattern = Pattern.compile("^[\\w\\s,.]+\\s\\d+$"); 
-                
-                if (endPattern.matcher(input).matches()) {
-                    profile.setAddress(input);
-                } else {
-                    System.out.println("Endereço Inválido");
-                    return false;
-                }
-            case 6:
-                Pattern username = Pattern.compile("^(?=.{3,20}$)(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9_-]+([^._-])$");
-
-                if (username.matcher(input).matches()) {
-                    profile.setUsername(input);
-                } else {
-                    System.out.println("Apelido inválido");
-                    return false;
-                }
-                break;
-            case 7:
-                String genderInput = input.toLowerCase();
-
-                Gender selectedGender = switch (genderInput) {
-                    case "masculino" -> Gender.MALE;
-                    case "feminino" -> Gender.FEMALE;
-                    case "não-binário" -> Gender.NON_BINARY;
-                    default -> Gender.OTHER;
-                };
-
-                profile.setGender(selectedGender);
-                break;
-            case 8:
-                Pattern pattern = Pattern.compile("(?:([+]\\d{1,4})[-.\\s]?)?(?:[(](\\d{1,3})[)][-.\\s]?)?(\\d{1,4})[-.\\s]?(\\d{1,4})[-.\\s]?(\\d{1,9})");
-
-                if (pattern.matcher(input).matches()) {
-                    profile.setPhoneNumber(Long.parseLong(input));
-                } else {
-                    System.out.println("Número de telefone inválido");
-                    return false;
-                }
-                break;
-            case 9:
-                profile.getPreferences().setBirthdayOption(input.equalsIgnoreCase("s"));
-                break;
-            case 10:
-                profile.getPreferences().setFullNameOption(input.equalsIgnoreCase("s"));
-                break;
-            case 11:
-                profile.getPreferences().setGenderOption(input.equalsIgnoreCase("s"));
-                break;
+        try {
+            setters[fieldIndex].run();
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return true;
         }
 
-        return true;
+        return false;
     }
 }
