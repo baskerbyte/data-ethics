@@ -1,0 +1,12 @@
+.imagem {
+    padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 20px;
+}
+
+.imagem img {
+    width: 540px;
+    height: 310px;
+}
