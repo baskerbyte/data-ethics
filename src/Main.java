@@ -40,13 +40,14 @@ public class Main {
 
         do {
             System.out.println("[0] Sair");
+            // Enumerar opções começando do 1
             for (int i = 0; i < options.length; i++) {
                 System.out.println("[" + (i + 1) + "] " + options[i]);
             }
 
             System.out.println("Digite uma opção:");
             option = scanner.nextInt();
-
+        // Repetir enquanto for uma opção inválida (abaixo de 0 ou maior que a quantidade atual)
         } while (0 < option && option > options.length);
         System.out.println();
 
@@ -79,7 +80,7 @@ public class Main {
         String cpf = scanner.nextLine();
 
         if (!Objects.equals(cpf, profile.getCpf())) {
-            System.out.println("CPF inválido");
+            System.out.println("CPF inválido!");
             return;
         }
 
@@ -98,7 +99,6 @@ public class Main {
             return;
         }
 
-
         System.out.print("Digite a senha: ");
         String password = scanner.nextLine();
 
@@ -108,8 +108,10 @@ public class Main {
         }
 
         while (true) {
+            // Atualizar mensagem do perfil enquanto as alterações são feitas
             Profile profile = profiles.get(emailToEdit);
             StringBuilder details = profileDetails(profile, true);
+
             String[] lines = details.toString().split("\n");
             int lineNumber = menu(lines);
 
@@ -117,12 +119,13 @@ public class Main {
                 System.out.println("Saindo...");
                 return;
             }
-
+            // Pegar a linha correspondente, como por exemplo "Nome - XXX",
+            // para fazer a pergunta de inserir novo field
             String fieldName = lines[lineNumber - 1].split("-")[0].replaceFirst("^[0-9]+\\.", "").strip();
             // Repetir enquanto o resultado for inválido
             do {
                 System.out.print("Digite o novo " + fieldName.toLowerCase() + ": ");
-            } while (setProfileField(profiles.get(emailToEdit), lineNumber - 1, scanner.nextLine()));
+            } while (setProfileField(profiles.get(emailToEdit), lineNumber - 1, scanner.nextLine(), profiles));
 
             System.out.print("Alteração salva!");
             System.out.println();
@@ -206,7 +209,7 @@ public class Main {
                 // Repetir enquanto o resultado for inválido
                 do {
                     System.out.print(fieldName + ": ");
-                } while (setProfileField(profile, currentField, scanner.nextLine()));
+                } while (setProfileField(profile, currentField, scanner.nextLine(), profiles));
             }
 
             currentStep++;
@@ -217,11 +220,25 @@ public class Main {
         System.out.println("Perfil criado com sucesso.");
     }
 
-    private static boolean setProfileField(Profile profile, int fieldIndex, String input) {
+    private static boolean setProfileField(Profile profile, int fieldIndex, String input, HashMap<String, Profile> profiles) {
         Runnable[] setters = {
                 () -> profile.setName(input),
-                () -> profile.setEmail(input),
-                () -> profile.setPassword(input),
+                () -> {
+                    if (profiles.containsKey(input))
+                        throw new RuntimeException("Email já registrado!");
+
+                    profile.setEmail(input);
+                },
+                () -> {
+                    Scanner scanner = new Scanner(System.in);
+                    System.out.print("Confirme a sua senha: ");
+                    String confirmation = scanner.nextLine();
+
+                    if (!Objects.equals(input, confirmation))
+                        throw new RuntimeException("Senhas não coincidem!");
+
+                    profile.setPassword(input);
+                },
                 () -> profile.setBirthday(input),
                 () -> profile.setCpf(input),
                 () -> profile.setAddress(input),
