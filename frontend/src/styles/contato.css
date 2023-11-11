@@ -1,8 +1,8 @@
-.formulario{
+.formulario {
     background-color:rgb(198, 212, 228);
     margin:35px;
     width: 90%;
-    height:90%; 
+    height:90%;
     align-items: center;
     color:#000000;
     flex-wrap: wrap;
@@ -10,24 +10,25 @@
     border-radius: 10px;
     overflow: hidden;
     font-size:15px;
-    padding-left:35px;
-    padding-right:35px;
-    padding-top:40px;
-    padding-bottom:40px;
+    padding: 40px 35px;
 }
-.col-25{
+
+.col-25 {
     font-size: 25px;
     flex-basis: 25%;
 }
-.col-75{
+
+.col-75 {
     flex-basis: 75%;
 }
+
 .col-25, .col-75 {
     padding: 20px;
     box-sizing: border-box;
     text-align: left;
 }
-button, [type=submit]{
+
+button, [type=submit] {
     background-color: #4CAF58;
     color: white;
     padding: 12px 20px;
@@ -37,9 +38,10 @@ button, [type=submit]{
     font-size: 20px;
     text-align: center;
 }
-button, [type=submit]:hover{
+button > main, [type=submit]:hover {
     background-color: #45a049;
 }
+
 input, [type=email], [type=text], textarea {
     width: 100%;
     padding: 12px;
