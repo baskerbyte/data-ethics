@@ -230,6 +230,9 @@ public class Main {
                     profile.setEmail(input);
                 },
                 () -> {
+                    if (profile.getPassword() != null && Objects.equals(input, profile.getPassword()))
+                        throw new RuntimeException("Senha atual identificada!");
+
                     Scanner scanner = new Scanner(System.in);
                     System.out.print("Confirme a sua senha: ");
                     String confirmation = scanner.nextLine();
