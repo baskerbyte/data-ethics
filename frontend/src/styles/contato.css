@@ -1,56 +1,110 @@
-.formulario {
-    background-color:rgb(198, 212, 228);
-    margin:35px;
-    width: 90%;
-    height:90%;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
+
+body {
+    background: linear-gradient(45deg, #94BBD4, #3E4F59, #7897AB);
+}
+main {
+    padding: 1rem;
+    background-repeat: no-repeat;
+    min-width: 100vw;
+    display: flex;
     align-items: center;
-    color:#000000;
-    flex-wrap: wrap;
-    text-align:justify;
-    border-radius: 10px;
-    overflow: hidden;
-    font-size:15px;
-    padding: 40px 35px;
+    justify-content: center;
 }
-
-.col-25 {
-    font-size: 25px;
-    flex-basis: 25%;
+.container {
+    background: #f0f8ff;
+    min-width: 320px;
+    min-height: 40vh;
+    padding: 3rem;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
 }
-
-.col-75 {
-    flex-basis: 75%;
+/*ENTRE EM CONTATO*/
+main h2 {
+    font-weight: 600;
+    margin-bottom: 2rem;
+    position: relative;
 }
-
-.col-25, .col-75 {
-    padding: 20px;
-    box-sizing: border-box;
-    text-align: left;
+main h2::before {
+    content: '';
+    position: absolute;
+    height: 4px;
+    width: 211px;
+    bottom: 3px;
+    left: 0;
+    border-radius: 20px;
+    background: linear-gradient(45deg, #94BBD4, #3E4F59, #7897AB);
 }
+form {
+    display: flex;
+    flex-direction: column;
+}
+.input-field {
+    position: relative;
+    margin-bottom: 1.0rem;
+}
+.input-field .sublinhado::before {
+    content: '';
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    bottom: -5px;
+    left: 0;
+    background: rgba(0, 0, 0, 0.2);
+}
+.input-field .sublinhado::after {
+    content: '';
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    bottom: -5px;
+    left: 0;
+    background: linear-gradient(45deg, #94BBD4, #3E4F59, #7897AB);
+    transform: scaleX(0);
+    transition: all .3s ease-in-out;
+    transform-origin: left;
+}
+.input-field input:focus ~ .sublinhado::after {
+    transform: scaleX(1);
+}
+.input-field input {
+    outline: none;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.7);
+    background-color: #f0f8ff;
+    width: 100%;
+}
+.input-field input::placeholder {
+    color: rgba(0, 0, 0, 0.5);
 
-button, [type=submit] {
-    background-color: #4CAF58;
-    color: white;
-    padding: 12px 20px;
+}
+textarea {
+    border-radius: 3px;
+    background-color: #f0f8ff;
+    font-family: 'Titillium Web', sans-serif;
+
+}
+button, [type=submit]{
+    background: #1f272c;
+    color: #f0f8ff;
+    padding: 7px 15px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     font-size: 20px;
     text-align: center;
+    transition: 150ms;
+    transition: all .3s ease-in-out;
+
 }
-button > main, [type=submit]:hover {
-    background-color: #45a049;
+button, [type=submit]:hover{
+    background-color: #7897AB;
+    color: #1f272c;
 }
 
-input, [type=email], [type=text], textarea {
-    width: 100%;
-    padding: 12px;
-    border:1px solid #cccccccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-top: 6px;
-    margin-bottom: 16px;
-    resize:both;
-    text-align: justify;
-    font-size: 17px;
+
+footer{
+    color: #f0f8ff;
+}footer > div > a{
+    color: #f0f8ff;
 }

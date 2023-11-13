@@ -1,0 +1,17 @@
+main {
+    width: 80%;
+    margin: auto;
+}
+
+img {
+    width: 100%;
+    border-radius: 2rem;
+}
+
+.codigotexto-container{
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    main {width: 100%;}
+}

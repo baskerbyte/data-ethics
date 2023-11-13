@@ -1,12 +1,117 @@
 .imagem {
-    padding-top: 20px;
+    margin-top: 1rem;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
-    gap: 20px;
+    justify-content: center;
+    transition: all 300ms ease-in-out;
+}
+.img-container{
+    width: 20vw;
+    z-index: 0;
+    transition: all 300ms ease-in-out;
+}.img-container > img{width: 100%}
+.principal{
+    width: 35vw;
+    z-index: 1;
 }
 
-.imagem img {
-    width: 540px;
-    height: 310px;
+section {
+    width: 70%;
+    margin: 1rem auto;
+    padding: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    transition: all 300ms ease-in-out;
+}section:hover{background-color: #fff;}
+
+.text-container{width: 70%;}
+.img-container2{
+    width: 25%;
+    display: grid;
+    place-items: center;
+}.img-container2>img , .img-container3>img{width: 100%}
+
+.img-container3{display: none;}
+.items {
+    margin: 2rem 0;
+    position: relative;
+    left: 50%;
+    width: 30vw;
+    height: 12vw;
+    transform: translate(-50%, -50%);
+    user-select: none;
+}
+
+.items .item {
+    width: 20vw;
+    height: 14vw;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    transition: all 300ms ease-in-out;
+    z-index: -1;
+    opacity: 0;
+}
+
+.item img{
+    width: 100%;
+}
+
+.item.active {
+    width: 30vw;
+    height: 17vw;
+    opacity: 1;
+    z-index: 3;
+}
+
+.item.prev {
+    z-index: 1;
+    opacity: 0.25;
+    transform: translate(-125%, -50%);
+}
+
+.item.next {
+    z-index: 2;
+    opacity: 0.25;
+    transform: translate(25%, -50%);
+}
+
+
+@media (max-width: 768px) {
+    .items .item{
+        width: 30vw;
+        height: 17vw;
+    }
+
+    .item.active{
+        width: 45vw;
+        height: 26vw;
+    }
+
+    .img-container2{
+        display: none;
+    }
+
+    section {
+        width: 100%;
+    }
+
+    .text-container{
+        width: 100%;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    .img-container3{
+        display: block;
+        width: 30%;
+        margin: auto;
+    }
 }
