@@ -1,10 +1,21 @@
 const slides = document.querySelectorAll(".item");
+const button = document.querySelectorAll(".button");
 
 let current = 0;
-let prev = 2;
+let prev = 4;
 let next = 1;
 
-const gotoNext = () => current < 2 ? gotoNum(current + 1) : gotoNum(0);
+const gotoPrev = () => current > 0 ? gotoNum(current - 1) : gotoNum(slides.length - 1);
+const gotoNext = () => current < 4 ? gotoNum(current + 1) : gotoNum(0);
+
+let lastActivity = Date.now()
+
+for (let i = 0; i < button.length; i++) {
+    button[i].addEventListener("click", () => {
+        lastActivity = Date.now()
+        i === 0 ? gotoPrev() : gotoNext()
+    });
+}
 
 function gotoNum(number) {
     current = number;
@@ -17,29 +28,13 @@ function gotoNum(number) {
         slides[i].classList.remove("next");
     }
 
-    if (next === 3){
+    if (next === 5)
         next = 0;
-    }
-    if (prev === -1){
-        prev = 2;
-    }
+
+    if (prev === -1)
+        prev = 4;
 
     slides[current].classList.add("active");
     slides[prev].classList.add("prev");
     slides[next].classList.add("next");
 }
-
-let counter = 0;
-var i = setInterval(function(){
-    
-    gotoNext();
-
-    counter++;
-    if(counter === 20) {
-        clearInterval(i);
-    }
-}, 3000);
-
-
-
-

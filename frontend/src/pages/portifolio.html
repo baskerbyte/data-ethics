@@ -31,25 +31,82 @@
 
     <main>
         <div class="codigotexto-container">
-            <h2>lorem ipsum</h2>
+            <h2>Main</h2>
             <p>
-                Donec vitae congue dui, sollicitudin eleifend purus. Sed dignissim ultrices feugiat. Aliquam eu aliquam ipsum, in lobortis magna. Donec non faucibus sem, sed tincidunt risus. Aliquam eleifend pellentesque ligula, id consectetur sapien feugiat quis. Aliquam elit ipsum, auctor at justo eu, tristique ullamcorper diam. Aenean porta pharetra maximus.
+                Arquivo principal, responsável por mostrar o menu e handlar as opções
             </p>
-            <img src="../../../imgs/CreateProfile.png" alt="">
+            <img src="../../../imgs/Start.png" alt="">
             <p>
-                Nunc varius ante id tincidunt venenatis. Proin consectetur tempus tellus, a ullamcorper enim. Curabitur quis vestibulum purus, ut fermentum dolor. In fermentum sem nisl, at faucibus dui volutpat nec. Phasellus accumsan velit eget vehicula vehicula.
+                A partir do input válido recebido pela função menu, realizar a ação que o usuário desejar
             </p>
         </div>
 
         <div class="codigotexto-container">
-            <h2>lorem ipsum</h2>
+            <h2>Menu</h2>
             <p>
-                Donec vitae congue dui, sollicitudin eleifend purus. Sed dignissim ultrices feugiat. Aliquam eu aliquam ipsum, in lobortis magna. Donec non faucibus sem, sed tincidunt risus. Aliquam eleifend pellentesque ligula, id consectetur sapien feugiat quis. Aliquam elit ipsum, auctor at justo eu, tristique ullamcorper diam. Aenean porta pharetra maximus.
+                A função menu será executada enquanto o usuário não informar um número válido, ou seja letras, menores que 0 ou maior que a quantidade de opções
+            </p>
+            <img src="../../../imgs/Options.png" alt="">
+        </div>
+
+        <div class="codigotexto-container">
+            <h2>Criar Perfil</h2>
+            <p>
+                Os inputs são divididos em etapas para não ficarem tão consativos para o usuário
+            </p>
+            <img src="../../../imgs/CreateProfile.png" alt="">
+            <p>
+                O "do" é usado para evitar que o usuário digite algo errado e tenha que recomeçar todo o registro do começo
+            </p>
+        </div>
+
+        <div class="codigotexto-container">
+            <h2>Campos do perfil</h2>
+            <p>
+                Para não poluir o código foi usado o tipo "Runnable" para setar alguma propriedade ao perfil do usuário
+            </p>
+            <img src="../../../imgs/ProfileField.png" alt="">
+            <p>
+                Se a operação não for bem sucedida ele emite um erro, esse erro é capturado no catch retornando true para continuar o loop até retornar uma interação válida
+            </p>
+        </div>
+
+        <div class="codigotexto-container">
+            <h2>Editar perfil</h2>
+            <p>
+                Ele gera os detalhes do perfil para o usuário editar por linha (que serão enumeradas na função menu), depois ele pega a linha e separa ela no "-" para pegar somente o nome do field e não seu valor
+            </p>
+            <img src="../../../imgs/EditProfile.png" alt="">
+            <p>
+                Esses passos foram feitos para evitar ficar repetindo o código, seguindo a mesma lógica do criar perfil
+            </p>
+        </div>
+
+        <div class="codigotexto-container">
+            <h2>Listar perfis</h2>
+            <p>
+                Chama a função de detalhes para cada usuário registrado
+            </p>
+            <img src="../../../imgs/ListProfiles.jpeg" alt="">
+        </div>
+
+        <div class="codigotexto-container">
+            <h2>Detalhes do perfil</h2>
+            <p>
+                Gera os detalhes do perfil, se a opção expanded for verdadeira ele coloca ainda mais informações
+            </p>
+            <img src="../../../imgs/DetailsProfile.png" alt="">
+            <p>
+                Os fields precisam ser adicionados em uma ordem específica, para não quebrar a função de editar perfil
+            </p>
+        </div>
+
+        <div class="codigotexto-container">
+            <h2>Deletar perfil</h2>
+            <p>
+                Pede algumas informações como email, senha e CPF para confirmar a exclusão do perfil
             </p>
             <img src="../../../imgs/DeleteProfile.png" alt="">
-            <p>
-                Nunc varius ante id tincidunt venenatis. Proin consectetur tempus tellus, a ullamcorper enim. Curabitur quis vestibulum purus, ut fermentum dolor. In fermentum sem nisl, at faucibus dui volutpat nec. Phasellus accumsan velit eget vehicula vehicula.
-            </p>
         </div>
             
     </main>
@@ -67,7 +124,7 @@
             <a href="">Nathalia</a>
         </div>
         <br/>
-        <p>todos os direitos reservados ©</p>
+        <p>Todos os direitos reservados ©</p>
     </footer>
 </body>
 </html>

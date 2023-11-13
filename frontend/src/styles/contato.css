@@ -93,7 +93,6 @@ button, [type=submit]{
     cursor: pointer;
     font-size: 20px;
     text-align: center;
-    transition: 150ms;
     transition: all .3s ease-in-out;
 
 }
