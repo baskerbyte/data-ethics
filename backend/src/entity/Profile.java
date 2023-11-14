@@ -32,7 +32,7 @@ public class Profile {
         if (namePattern.matcher(name).matches()) {
             this.name = name;
         } else {
-            throw new RuntimeException("O nome não respeita as convenções de um nome próprio.");
+            throw new RuntimeException("O nome não respeita as convenções de um nome próprio. (EX.: Alyson Guilherme Teixeira de Oliveira)");
         }
     }
 

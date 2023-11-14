@@ -4,9 +4,8 @@ body {
     background: linear-gradient(45deg, #94BBD4, #3E4F59, #7897AB);
 }
 main {
-    padding: 1rem;
+    padding: 1rem 0;
     background-repeat: no-repeat;
-    min-width: 100vw;
     display: flex;
     align-items: center;
     justify-content: center;

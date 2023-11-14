@@ -13,6 +13,7 @@ body {
     font-family: 'Titillium Web', sans-serif;
     background-color: #f0f8ff;
     color: #1f272c;
+    min-height: 100vh;
 }
 /**------------- CONFIGURAÇÕES GLOBAIS - FIM ------------- **/
 
@@ -60,7 +61,7 @@ nav ul li a {
 }nav ul li a:hover{font-size:larger; text-decoration: underline;}
 /**------------- MENU E SEUS FILHOS - FIM ------------- **/
 
-/**------------- FOOETER E SEUS FILHOS ------------- **/
+/**------------- FOOTER E SEUS FILHOS ------------- **/
 footer {
     text-align: center;
     border-top:1px solid #bbb;
@@ -71,8 +72,9 @@ footer {
     justify-content: center;
     align-items: center;
     color: #999;
+
 }footer > div > a{color: #999;}
-/**------------- FOOETER E SEUS FILHOS - FIM ------------- **/
+/**------------- FOOTER E SEUS FILHOS - FIM ------------- **/
 
 
 

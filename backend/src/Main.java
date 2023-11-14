@@ -46,7 +46,12 @@ public class Main {
             }
 
             System.out.println("Digite uma opção:");
-            option = scanner.nextInt();
+            try {
+                option = scanner.nextInt();
+            } catch (Exception e) {
+                option = -1;
+            }
+            
         // Repetir enquanto for uma opção inválida (abaixo de 0 ou maior que a quantidade atual)
         } while (0 < option && option > options.length);
         System.out.println();
@@ -143,9 +148,9 @@ public class Main {
         StringBuilder details = new StringBuilder();
 
         if (profile.getPreferences().showFullName() || expanded) {
-            details.append("Nome - ").append(profile.getName());
+            details.append("Nome completo - ").append(profile.getName());
         } else {
-            details.append("Nome - ").append(profile.getName().strip(), 0, profile.getName().length() / 2);
+            details.append("Nome completo - ").append(profile.getName().strip(), 0, profile.getName().length() / 2);
         }
 
         if (expanded) {
@@ -185,7 +190,7 @@ public class Main {
         Profile profile = new Profile();
         // Usar lista por serem elementos fixos
         List<String> inputFields = Arrays.asList(
-                "Nome", "Email", "Senha",
+                "Nome completo", "Email", "Senha",
                 "Data de Nascimento (dd/mm/aaaa)", "CPF", "Endereço",
                 "Apelido", "Gênero (Masculino, Feminino, Não-Binário, Outro)", "Número de Telefone",
                 "Mostrar aniversário (S/N)", "Mostrar nome completo (S/N)", "Mostrar gênero (S/N)"
