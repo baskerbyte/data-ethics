@@ -32,7 +32,7 @@ public class Profile {
         if (namePattern.matcher(name).matches()) {
             this.name = name;
         } else {
-            throw new RuntimeException("O nome não respeita as convenções de um nome próprio. (EX.: Alyson Guilherme Teixeira de Oliveira)");
+            throw new RuntimeException("O nome não respeita as convenções de um nome próprio. (EX.: Alyson Guilherme Teixeira de Oliveira)\nLembre-se de começar cada palavra com letra maiúscula");
         }
     }
 
@@ -67,15 +67,29 @@ public class Profile {
         return gender;
     }
 
-    public void setGender(String gender) {
-        String genderInput = gender.toLowerCase();
+    public void setGender(String genderStr) {
+        String genderInput = genderStr.toLowerCase();
 
-        this.gender = switch (genderInput) {
-            case "masculino" -> Gender.MALE;
-            case "feminino" -> Gender.FEMALE;
-            case "não-binário" -> Gender.NON_BINARY;
-            default -> Gender.OTHER;
-        };
+        Gender gender;
+
+        switch (genderInput) {
+            case "masculino":
+                gender = Gender.MALE;
+                break;
+            case "feminino":
+                gender = Gender.FEMALE;
+                break;
+            case "não-binário":
+                gender = Gender.NON_BINARY;
+                break;
+            case "outro":
+                gender = Gender.OTHER;
+                break;
+            default:
+                throw new RuntimeException("Gênero inválido digite os disponíveis (masculino, feminino, não-binário, outro)");
+        }
+
+        this.gender = gender;
     }
 
     public String getAddress() {
@@ -138,10 +152,7 @@ public class Profile {
         if (strongPattern.matcher(password).matches()) {
             this.password = PasswordStorage.hashPassword(password);
         } else {
-            throw new RuntimeException("""
-                    Senha fraca! Use pelo menos 8 dígitos, dos quais: ao menos uma letra minúscula 
-                    e maiúscula e ao menos um caractere especial
-                    """);
+            throw new RuntimeException("Senha fraca! Use pelo menos 8 dígitos, dos quais: ao menos uma letra minúscula e maiúscula e ao menos um caractere especial");
         }
     }
 

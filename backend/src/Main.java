@@ -1,4 +1,3 @@
-import entity.Gender;
 import entity.Profile;
 import services.PasswordStorage;
 
@@ -37,23 +36,30 @@ public class Main {
     public static int menu(String... options) {
         Scanner scanner = new Scanner(System.in);
         int option;
+        String menuDraw = "[0] Sair\n";
 
-        do {
-            System.out.println("[0] Sair");
-            // Enumerar opções começando do 1
-            for (int i = 0; i < options.length; i++) {
-                System.out.println("[" + (i + 1) + "] " + options[i]);
-            }
+        for (int i = 0; i < options.length; i++) {
+            menuDraw += ("[" + (i + 1) + "] " + options[i]) + "\n";
+        }
 
+        while(true) {
+            System.out.println(menuDraw);
             System.out.println("Digite uma opção:");
+
             try {
                 option = scanner.nextInt();
+        
+                if (option >= 0 && option <= options.length) break;
+                else
+                    System.out.println("Opção inválida! Digite um número inteiro e positivo entre 0 e " + options.length);
             } catch (Exception e) {
-                option = -1;
+                System.out.println("Entrada inválida! Digite um número inteiro.");
+                scanner.nextLine(); // Limpar o buffer do scanner
             }
-            
-        // Repetir enquanto for uma opção inválida (abaixo de 0 ou maior que a quantidade atual)
-        } while (0 < option && option > options.length);
+
+            System.out.println();
+        }
+
         System.out.println();
 
         return option;
@@ -91,6 +97,7 @@ public class Main {
 
         profiles.remove(profile.getEmail());
         System.out.print("Perfil deletado!");
+        System.out.println();
     }
 
     private static void editProfile(HashMap<String, Profile> profiles) {
@@ -127,10 +134,18 @@ public class Main {
             // Pegar a linha correspondente, como por exemplo "Nome - XXX",
             // para fazer a pergunta de inserir novo field
             String fieldName = lines[lineNumber - 1].split("-")[0].replaceFirst("^[0-9]+\\.", "").strip();
+
             // Repetir enquanto o resultado for inválido
             do {
                 System.out.print("Digite o novo " + fieldName.toLowerCase() + ": ");
-            } while (setProfileField(profiles.get(emailToEdit), lineNumber - 1, scanner.nextLine(), profiles));
+            } while (setProfileField(profile, lineNumber - 1, scanner.nextLine(), profiles));
+
+            // Se for a opção de alterar email nos precisamos excluir o email antigo e adicionar o novo
+            if ((lineNumber - 1) == 1) {
+                profiles.remove(emailToEdit);
+                profiles.put(profile.getEmail(), profile);
+                emailToEdit = profile.getEmail();
+            }
 
             System.out.print("Alteração salva!");
             System.out.println();
@@ -177,9 +192,9 @@ public class Main {
 
         if (expanded) {
             details.append("\nTelefone - ").append(profile.getPhoneNumber());
-            details.append("\nMostrar aniversário (S/N) - ").append(profile.getPreferences().showBirthday());
-            details.append("\nMostrar nome completo (S/N) - ").append(profile.getPreferences().showFullName());
-            details.append("\nMostrar gênero (S/N) - ").append(profile.getPreferences().showGender());
+            details.append("\nMostrar aniversário (S/N) - ").append(profile.getPreferences().showBirthday() ? "Sim" : "Não");
+            details.append("\nMostrar nome completo (S/N) - ").append(profile.getPreferences().showFullName() ? "Sim" : "Não");
+            details.append("\nMostrar gênero (S/N) - ").append(profile.getPreferences().showGender() ? "Sim" : "Não");
         }
 
         return details;
